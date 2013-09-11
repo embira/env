@@ -1,0 +1,48 @@
+# Editor
+Session.vim
+*~
+*.swp
+*.un~
+*.project
+*.metadata
+*.tmp
+*.bak
+*~.nib
+
+# Subversion
+.svn/
+
+# Compiled source
+*.com
+*.class
+*.dll
+*.lib
+*.exe
+*.o
+*.so
+*.slo
+*.a
+*.la
+*.lai
+*.out
+
+# Autotools
+# http://www.gnu.org/software/automake
+Makefile.in
+# http://www.gnu.org/software/autoconf
+/autom4te.cache
+/aclocal.m4
+/compile
+/configure
+/depcomp
+/install-sh
+/missing
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
