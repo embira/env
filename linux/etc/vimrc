@@ -158,7 +158,9 @@ if &term =~ "256color"
     hi TabLineSel   cterm=NONE      ctermfg=82  ctermbg=NONE
     " Syntax
     hi Search       cterm=reverse
+    hi String       ctermfg=9
     hi Statement    ctermfg=3
+    hi Directory    ctermfg=111
 endif
 " }
 
