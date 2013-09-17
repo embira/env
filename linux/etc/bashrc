@@ -72,4 +72,6 @@ alias td='tree -dCF'
 alias td3='tree -dCF -L 3'
 alias td4='tree -dCF -L 4'
 alias td5='tree -dCF -L 5'
+alias ccat='pygmentize -O style=monokai -f console256 -g'
+alias scat='src-hilite-lesspipe.sh'
 #}}}
