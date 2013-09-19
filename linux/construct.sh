@@ -49,7 +49,11 @@ read -p 'Do you want to install vim color scheme? [y/n]:' flag
 dircolors -p | grep xterm-256color >/dev/null 2>&1 || {
     echo -e '# Add xterm-256color\nTERM xterm-256color\n' > $HOME/.dir_colors
     dircolors -p >> $HOME/.dir_colors
- }
+}
+
+# install pygments
+read -p 'Do you want to install pygments? [y/n]:' flag
+[ "$flag" = 'y' ] && sudo yum -y install python-pygments || echo 'Skip.'
 
 echo -e '\nOver. \nThe ~/.bashrc should be reaload.\n'
 
