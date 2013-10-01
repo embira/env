@@ -38,8 +38,9 @@ mkLink $cwd/etc/tmux.conf   $HOME/.tmux.conf
     [ "$flag" = 'y' ] && sh $HOME/bin/gitcfg.sh || echo 'Skip.'
 }
 
-# make svn config
+# make svn config and colordiff(rpmforge)
 mkdir -p $HOME/.subversion && ln -sf $cwd/etc/svn.conf $HOME/.subversion/config
+sudo yum -y install colordiff && ln -sf $cwd/etc/colordiffrc $HOME/.colordiffrc
 
 # make vim color scheme
 read -p 'Do you want to install vim color scheme? [y/n]:' flag
