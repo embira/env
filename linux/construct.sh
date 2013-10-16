@@ -23,39 +23,50 @@ function mkVimColorScheme() {
 cwd="$(readlink -e $0 | xargs dirname)"
 
 # create etc links
+#-------------------------------------------------------------
 mkLink $cwd/etc/bashrc      $HOME/.bashrc
 mkLink $cwd/etc/vimrc       $HOME/.vimrc
 mkLink $cwd/etc/tmux.conf   $HOME/.tmux.conf
+sshcfg='/home/maint/src/CURRENT/etc/devtools/sshsrv.conf'
+[ -e $sshcfg ] && { mkdir -m 0644 -p $HOME/.ssh && cat $sshcfg >> $HOME/.ssh/config; }
 
 # create bin links
+#-------------------------------------------------------------
 [ -e $cwd/scripts ] && {
     mkdir -p $HOME/bin && ln -sf $cwd/scripts/*.sh $HOME/bin/
 }
 
 # make git config
+#-------------------------------------------------------------
 [ -e $HOME/bin/gitcfg.sh ] && {
     read -p 'Do you want to config git? [y/n]:' flag
     [ "$flag" = 'y' ] && sh $HOME/bin/gitcfg.sh || echo 'Skip.'
 }
 
 # make svn config and colordiff(rpmforge)
+#-------------------------------------------------------------
 mkdir -p $HOME/.subversion && ln -sf $cwd/etc/svn.conf $HOME/.subversion/config
 sudo yum -y install colordiff && ln -sf $cwd/etc/colordiffrc $HOME/.colordiffrc
 
 # make vim color scheme
+#-------------------------------------------------------------
 read -p 'Do you want to install vim color scheme? [y/n]:' flag
 [ "$flag" = 'y' ] && mkVimColorScheme || echo 'Skip.'
 
 # mkdir dir_colors
+#-------------------------------------------------------------
 dircolors -p | grep xterm-256color >/dev/null 2>&1 || {
     echo -e '# Add xterm-256color\nTERM xterm-256color\n' > $HOME/.dir_colors
     dircolors -p >> $HOME/.dir_colors
 }
 
 # install pygments
+#-------------------------------------------------------------
 read -p 'Do you want to install pygments? [y/n]:' flag
 [ "$flag" = 'y' ] && sudo yum -y install python-pygments || echo 'Skip.'
 
+# over
+#-------------------------------------------------------------
 echo -e '\nOver. \nThe ~/.bashrc should be reaload.\n'
 
 #{+----------------------------------------- Embira Footer 1.6 ---------+
