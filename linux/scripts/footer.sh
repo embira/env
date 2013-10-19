@@ -8,13 +8,14 @@ FT_L3=" | vim600:set et sw=4 ts=4 sts=4 ff=unix cindent fdm=marker fmr=<+,+>: |"
 FT_L6=" | vim600:set noet sw=4 ts=4 sts=4 si fdm=marker fmr=<+,+>:            |"
 FT_L8=" | vim600:set et sw=2 ts=2 sts=2 si fdm=marker fmr=<+,+>:              |"
 FT_L4=" +---------------------------------------------------------------------+>"
-FT_LH="{+----------------------------------------- Embira Footer 1.6 ---------+"
-FT_L2=" | vim<600:set et sw=4 ts=4 sts=4:                                     |"
-FT_LC=" | vim600:set et sw=4 ts=4 sts=4 ff=unix cindent fdm=marker fmr={,}:   |"
-FT_L5=" | vim<600:set noet sw=4 ts=4 sts=4:                                   |"
-FT_L7=" | vim<600:set et sw=2 ts=2 sts=2:                                     |"
-FT_L9=" | vim600:set et sw=2 ts=2 sts=2 si fdm=marker fmr={,}:                |"
-FT_LE=" +---------------------------------------------------------------------+}"
+FT_LH="{+----------------------------------------- Embira Footer 1.7 -------+"
+FT_L2=" | vim<600:set et sw=4 ts=4 sts=4:                                   |"
+FT_LC=" | vim600:set et sw=4 ts=4 sts=4 ff=unix cindent fdm=marker fmr={,}: |"
+FT_LI=" | vim600:set et sw=4 ts=4 sts=4 ff=unix cindent fdm=indent fdn=1:   |"
+FT_L5=" | vim<600:set noet sw=4 ts=4 sts=4:                                 |"
+FT_L7=" | vim<600:set et sw=2 ts=2 sts=2:                                   |"
+FT_L9=" | vim600:set et sw=2 ts=2 sts=2 si fdm=marker fmr={,}:              |"
+FT_LE=" +-------------------------------------------------------------------+}"
 
 #----------------------------------------
 # Shell Function
@@ -39,7 +40,7 @@ add_sh_comment() {
     echo ""
     echo -e "#$FT_LH"
     echo -e "#$FT_L2"
-    echo -e "#$FT_LC"
+    echo -e "#$FT_LI"
     echo -e "#$FT_LE"
 }
 
