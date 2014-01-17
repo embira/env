@@ -19,8 +19,8 @@ else
 fi
 
 #export PATH=".:${PATH}:${HOME}/bin"
-export HISTFILESIZE=100
-export HISTSIZE=50
+export HISTFILESIZE=0
+export HISTSIZE=100
 export LANG='en_US.UTF-8'
 if [ -e /usr/share/zoneinfo/Japan ]; then
     export TZ='/usr/share/zoneinfo/Japan'
