@@ -1,0 +1,87 @@
+# .bashrc
+# User specific aliases and functions
+# vim600: fdm=marker
+
+# Source global definitions {{{
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+#}}}
+
+# User specific aliases and functions
+# system environment {{{
+if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+    export TERM='xterm-256color'
+    export LS_COLORS="`echo $LS_COLORS | sed 's/;34:/;38;5;111:/g;s/=01;/=00;/g'`"
+    export PS1='\[\e[0;96m\]\u\[\e[0;93m\]@\[\e[0;36m\]\h\[\e[0;33m\]-\[\e[0;36m\]\t \[\e[0;96m\]\w\[\e[0;93m\]\$\[\033[0m\] '
+else
+    export PS1='\[\e[1;36m\]\u\[\e[1;33m\]@\[\e[0;36m\]\h\[\e[0;33m\]-\[\e[0;36m\]\t \[\e[1;36m\]\w\[\e[1;33m\]\$\[\033[0m\] '
+fi
+
+#export PATH=".:${PATH}:${HOME}/bin"
+#export HISTFILESIZE=0
+#export HISTSIZE=100
+#export LANG='en_US.UTF-8'
+#if [ -e /usr/share/zoneinfo/Japan ]; then
+#    export TZ='/usr/share/zoneinfo/Japan'
+#fi
+
+# Less Colors for Man Pages
+export LESS_TERMCAP_mb=$'\E[31m'            # begin blinking
+export LESS_TERMCAP_md=$'\E[38;5;202m'      # begin bold
+export LESS_TERMCAP_me=$'\E[0m'             # end mode
+export LESS_TERMCAP_se=$'\E[0m'             # end standout-mode
+export LESS_TERMCAP_so=$'\E[38;5;228m'      # begin standout-mode - info box
+export LESS_TERMCAP_ue=$'\E[0m'             # end underline
+export LESS_TERMCAP_us=$'\E[04;38;5;47m'    # begin underline
+#}}}
+
+# keyboard {{{
+if [[ $TERM == *'xterm'* ]]; then
+    bind '"\e[1~":beginning-of-line' # HOME
+    bind '"\e[4~":end-of-line'       # END
+fi
+# }}}
+
+# cvs and subversion environment {{{
+export SVN_EDITOR='vim'
+#}}}
+
+# compiler and build environment {{{
+#}}}
+
+# alias commands {{{
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias j=jobs
+alias ll='ls -lhFG'
+alias l.='ls -dFG .*'
+alias ls='ls -FG'
+alias view='vim -R' 
+alias gview='gvim -R'
+alias dt="date +'%Y/%m/%d(%w) %H:%M:%S(%Z)'"
+alias h="history"
+alias diffsc='diff -u --exclude=.svn --ignore-matching-lines="^.*\$Id:.*\$.*$"'
+#alias sshproxy="ssh -F ~/.ssh/config.proxy"
+#alias mann="man \!* | nkf --euc | more"
+#alias xmlutf "xmlindent \!* | nkf --utf-8-input -e"
+#alias diff='diff -u'
+alias gits='git status -s'
+alias gitc='git commit'
+alias gitps='git push'
+alias gitpl='git pull'
+alias gitd='git diff --color'
+alias gitdw='git diff --color-words'
+alias gitds='git diff --color --stat'
+alias t='tree --dirsfirst -CF'
+alias t3='tree --dirsfirst -CF -L 3'
+alias t4='tree --dirsfirst -CF -L 4'
+alias t5='tree --dirsfirst -CF -L 5'
+alias td='tree -dCF'
+alias td3='tree -dCF -L 3'
+alias td4='tree -dCF -L 4'
+alias td5='tree -dCF -L 5'
+alias ccat='pygmentize -f 256'
+alias l='less -R'
+#}}}
