@@ -38,6 +38,7 @@ set expandtab
 set tabstop=4
 set wrap
 set ffs=unix
+set modelines=5
 set foldmethod=marker
 set mouse=a
 set ttymouse=xterm2 " for tmux mouse mode
