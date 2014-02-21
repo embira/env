@@ -37,10 +37,10 @@ export LESS_TERMCAP_us=$'\E[04;38;5;47m'    # begin underline
 #}}}
 
 # keyboard {{{
-if [[ $TERM == *'xterm'* ]]; then
-    bind '"\e[1~":beginning-of-line' # HOME
-    bind '"\e[4~":end-of-line'       # END
-fi
+#if [[ $TERM == *'xterm'* ]]; then
+#    bind '"\e[1~":beginning-of-line' # HOME
+#    bind '"\e[4~":end-of-line'       # END
+#fi
 # }}}
 
 # cvs and subversion environment {{{
