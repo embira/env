@@ -14,7 +14,7 @@ function mkVimColorScheme() {
     which wget || sudo port install wget || { echo '\nInstall wget failed!\n'; return 1; }
     local tmpclr="$HOME/tmp/colors"
     mkdir -p $tmpclr
-    wget https://github.com/flazz/vim-colorschemes/archive/master.zip -O $tmpclr/colors.zip
+    wget --no-check-certificate https://github.com/flazz/vim-colorschemes/archive/master.zip -O $tmpclr/colors.zip
     unzip $tmpclr/colors.zip -d $tmpclr >/dev/null 2>&1
     mkdir -p $HOME/.vim/colors
     find $tmpclr -name *.vim -exec cp {} $HOME/.vim/colors/ \;
