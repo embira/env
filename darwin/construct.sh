@@ -21,6 +21,15 @@ function mkVimColorScheme() {
     rm -fr $tmpclr
 }
 
+function mkCocoaVim() {
+    which wget || sudo port install wget || { echo '\nInstall wget failed!\n'; return 1; }
+    local tmpcocoa="$HOME/tmp/cocoa.vim"
+    mkdir -p $tmpcocoa $HOME/.vim
+    wget --no-check-certificate https://github.com/msanders/cocoa.vim/archive/master.zip -O $tmpcocoa/cocoa.zip
+    unzip $tmpcocoa/cocoa.zip -d $HOME/.vim >/dev/null 2>&1
+    rm -fr $tmpcocoa
+}
+
 # check MacPorts
 #-------------------------------------------------------------
 which port || {
@@ -65,6 +74,11 @@ fi
 #-------------------------------------------------------------
 read -p 'Do you want to install vim color scheme? [y/n]:' flag
 [ "$flag" = 'y' ] && mkVimColorScheme || echo 'Skip.'
+
+# make vim objective-c syntax
+#-------------------------------------------------------------
+read -p 'Do you want to install cocoa.vim for objective-c syntax? [y/n]:' flag
+[ "$flag" = 'y' ] && mkCocoaVim || echo 'Skip.'
 
 # mkdir dir_colors
 #-------------------------------------------------------------
