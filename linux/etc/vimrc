@@ -22,6 +22,7 @@ endif
 
 set term=$TERM
 set nocompatible	" Use Vim defaults (much better!)
+set encoding=utf-8
 set bs=2		" allow backspacing over everything in insert mode
 "set ai			" always set autoindenting on
 "set backup		" keep a backup file
