@@ -13,6 +13,9 @@ read -p 'Please enter email: ' email
     git config --global user.email  $email
 }
 
+# push for git 2.0
+git config --global push.default simple
+
 # editor
 git config --global core.editor vim
 git config --global merge.tool  vimdiff
