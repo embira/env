@@ -33,7 +33,7 @@ export LESS_TERMCAP_me=$'\E[0m'             # end mode
 export LESS_TERMCAP_se=$'\E[0m'             # end standout-mode
 export LESS_TERMCAP_so=$'\E[38;5;228m'      # begin standout-mode - info box
 export LESS_TERMCAP_ue=$'\E[0m'             # end underline
-export LESS_TERMCAP_us=$'\E[04;38;5;47m'    # begin underline
+export LESS_TERMCAP_us=$'\E[04;38;5;111m'    # begin underline
 #}}}
 
 # keyboard {{{
