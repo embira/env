@@ -42,6 +42,7 @@ cwd="$(find $PWD -samefile $0 | xargs dirname)"
 # create etc links
 #-------------------------------------------------------------
 mkLink $cwd/etc/bashrc      $HOME/.bashrc
+mkLink $cwd/etc/inputrc     $HOME/.inputrc
 mkLink $cwd/etc/vimrc       $HOME/.vimrc
 mkLink $cwd/etc/tmux.conf   $HOME/.tmux.conf
 sshcfg="$cwd/etc/sshsrv.conf"
