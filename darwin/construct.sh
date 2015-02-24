@@ -45,6 +45,7 @@ mkLink $cwd/etc/bashrc      $HOME/.bashrc
 mkLink $cwd/etc/inputrc     $HOME/.inputrc
 mkLink $cwd/etc/vimrc       $HOME/.vimrc
 mkLink $cwd/etc/tmux.conf   $HOME/.tmux.conf
+mkLink $cwd/etc/iterm       $HOME/.iterm
 sshcfg="$cwd/etc/sshsrv.conf"
 [ -e $sshcfg ] && mkdir -m 0744 -p $HOME/.ssh && cat $sshcfg >> $HOME/.ssh/config
 
