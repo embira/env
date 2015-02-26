@@ -55,6 +55,7 @@ alias j=jobs
 alias ll='ls -lhwFG'
 alias l.='ls -dwFG .*'
 alias ls='ls -wFG'
+alias dir='gls -F --group-directories-first --color=auto' # should run `port install coreutils`
 alias view='vim -R' 
 alias gview='gvim -R'
 alias dt="date +'%Y/%m/%d(%w) %H:%M:%S(%Z)'"
