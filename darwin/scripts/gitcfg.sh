@@ -14,7 +14,7 @@ read -p 'Please enter email: ' email
 }
 
 # push for git 2.0
-git config --global push.default simple
+git config --global push.default matching
 
 # editor
 git config --global core.editor vim
@@ -33,7 +33,7 @@ git config --global alias.ci    commit
 git config --global alias.br    branch
 git config --global alias.st    status
 git config --global alias.us    'reset HEAD --' # unstage
-git config --global alias.last  "!last() { [ $# -eq 0 ] && num=1 || num=$1; git log HEAD --name-status -$num; }; last"
+git config --global alias.last  "!last() { [ \$# -eq 0 ] && num=1 || num=\$1; git log HEAD --name-status -\$num; }; last"
 git config --global alias.alias 'config --get-regexp alias'
 
 # ignore
