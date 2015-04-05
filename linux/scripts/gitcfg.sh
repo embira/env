@@ -33,7 +33,7 @@ git config --global alias.ci    commit
 git config --global alias.br    branch
 git config --global alias.st    status
 git config --global alias.us    'reset HEAD --' # unstage
-git config --global alias.last  'log -1 HEAD'
+git config --global alias.last  "!last() { [ $# -eq 0 ] && num=1 || num=$1; git log HEAD --name-status -$num; }; last"
 git config --global alias.alias 'config --get-regexp alias'
 
 # ignore
