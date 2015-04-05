@@ -72,6 +72,12 @@ else
     echo 'Skip.'
 fi
 
+# add markdown file detect to vim
+#-------------------------------------------------------------
+dir_ftdetect="$HOME/.vim/ftdetect"
+[ -d $dir_ftdetect ] || mkdir -p $dir_ftdetect
+[ -f $dir_ftdetect/markdown.vim ] || ln -s ${cwd%/*}/vim/ftdetect/markdown.vim $dir_ftdetect/
+
 # make vim color scheme
 #-------------------------------------------------------------
 read -p 'Do you want to install vim color scheme? [y/n]:' flag

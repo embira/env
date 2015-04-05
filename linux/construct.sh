@@ -45,8 +45,19 @@ sshcfg='/home/maint/src/CURRENT/etc/devtools/sshsrv.conf'
 
 # make svn config and colordiff(rpmforge)
 #-------------------------------------------------------------
-mkdir -p $HOME/.subversion && ln -sf $cwd/etc/svn.conf $HOME/.subversion/config
-sudo yum -y install colordiff && ln -sf $cwd/etc/colordiffrc $HOME/.colordiffrc
+read -p 'Do you want to install svn config and colordiff? [y/n]:' flag
+if [ "$flag" = 'y' ]; then
+    mkdir -p $HOME/.subversion && ln -sf $cwd/etc/svn.conf $HOME/.subversion/config
+    sudo yum -y install colordiff && ln -sf $cwd/etc/colordiffrc $HOME/.colordiffrc
+else
+    echo 'Skip.'
+fi
+
+# add markdown file detect to vim
+#-------------------------------------------------------------
+dir_ftdetect="$HOME/.vim/ftdetect"
+[ -d $dir_ftdetect ] || mkdir -p $dir_ftdetect
+[ -f $dir_ftdetect/markdown.vim ] || ln -s ${cwd%/*}/vim/ftdetect/markdown.vim $dir_ftdetect/
 
 # make vim color scheme
 #-------------------------------------------------------------
