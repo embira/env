@@ -35,7 +35,7 @@ git config --global alias.st    status
 git config --global alias.us    'reset HEAD --' # unstage
 git config --global alias.last  "!last() { [ \$# -eq 0 ] && num=1 || num=\$1; git log HEAD --graph --name-status -\$num; }; last"
 git config --global alias.alias 'config --get-regexp alias'
-git config --global alias.ll    'log --pretty=format:"%C(auto)%h - %ai - %<(10,trunc)%Cblue%an%C(reset) : %Cgreen%s"'
+git config --global alias.ll    'log --pretty=format:"%C(auto)%h - %Cblue%ai%C(reset) - %<(10,trunc)%C(magenta)%an%C(reset) : %Cgreen%s"'
 
 # ignore
 cwd="$(find $PWD -samefile $0 | xargs dirname)" && {
