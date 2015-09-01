@@ -27,6 +27,9 @@ git config --global color.interactive   auto
 git config --global color.status        auto
 git config --global color.ui            true
 
+# file name with NO-ASCII code
+git config --global core.quotepath      false
+
 # aliases
 git config --global alias.co    checkout
 git config --global alias.ci    commit
