@@ -26,6 +26,8 @@ if [ -e /usr/share/zoneinfo/Japan ]; then
     export TZ='/usr/share/zoneinfo/Japan'
 fi
 
+# set Less
+export LESSCHARSET=utf-8                    # for chinese, japanese. Such as git log
 # Less Colors for Man Pages
 export LESS_TERMCAP_mb=$'\E[31m'            # begin blinking
 export LESS_TERMCAP_md=$'\E[38;5;202m'      # begin bold

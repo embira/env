@@ -15,6 +15,7 @@ export TERM='xterm-256color'
 export PS1='\[\e[0;96m\]\u\[\e[0;93m\]@\[\e[0;36m\]\h\[\e[0;33m\]-\[\e[0;36m\]\t \[\e[0;96m\]\w\[\e[0;93m\]\$\[\033[0m\] '
 
 #export PATH=".:${PATH}:${HOME}/bin"
+export PATH=".:${PATH}:${HOME}/Projects/android/sdk/platform-tools"
 #export HISTFILESIZE=0
 #export HISTSIZE=100
 #export LANG='en_US.UTF-8'
@@ -23,6 +24,8 @@ export LC_CTYPE=C
 #    export TZ='/usr/share/zoneinfo/Japan'
 #fi
 
+# set Less
+export LESSCHARSET=utf-8                    # for chinese, japanese. Such as git log
 # Less Colors for Man Pages
 export LESS_TERMCAP_mb=$'\E[31m'            # begin blinking
 export LESS_TERMCAP_md=$'\E[38;5;202m'      # begin bold
