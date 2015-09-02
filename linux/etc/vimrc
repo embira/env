@@ -39,6 +39,7 @@ set expandtab
 set tabstop=4
 set wrap
 set ffs=unix
+set modelines=5
 set foldmethod=marker
 set mouse=a
 set ttymouse=xterm2 " for tmux mouse mode
@@ -150,6 +151,8 @@ if &term =~ "256color"
     " STATUS
     hi StatusLine   cterm=reverse   ctermfg=111 ctermbg=0
     hi StatusLineNC cterm=reverse   ctermfg=238 ctermbg=245
+    " Match Parens
+    hi MatchParen   cterm=underline,bold ctermfg=NONE ctermbg=NONE
     " INTERFACE
     hi LineNr       cterm=NONE      ctermfg=240 ctermbg=NONE
     hi VertSplit    cterm=NONE      ctermfg=110 ctermbg=NONE
