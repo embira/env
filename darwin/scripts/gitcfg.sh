@@ -31,14 +31,15 @@ git config --global color.ui            true
 git config --global core.quotepath      false
 
 # aliases
+git config --global alias.alias 'config --get-regexp alias'
 git config --global alias.co    checkout
 git config --global alias.ci    commit
-git config --global alias.br    branch
 git config --global alias.st    status
+git config --global alias.br    'branch --all'
 git config --global alias.us    'reset HEAD --' # unstage
 git config --global alias.last  "!last() { [ \$# -eq 0 ] && num=1 || num=\$1; git log HEAD --graph --name-status -\$num; }; last"
-git config --global alias.alias 'config --get-regexp alias'
-git config --global alias.ll    'log --pretty=format:"%C(auto)%h - %Cblue%ai%C(reset) - %<(10,trunc)%C(magenta)%an%C(reset) : %Cgreen%s%C(reset) %d"'
+git config --global alias.lg    'log --pretty=format:"%C(auto)%h - %Cblue%ai%C(reset) - %<(10,trunc)%C(magenta)%an%C(reset) : %Cgreen%s%C(reset) %d"'
+git config --global alias.lr    'log --simplify-by-decoration --pretty=format:\"%C(auto)%h - %Cblue%ai%C(reset) - %<(10,trunc)%C(magenta)%an%C(reset) : %<(35,trunc)%Cgreen%s%C(reset) %d\"'
 
 # ignore
 cwd="$(find $PWD -samefile $0 | xargs dirname)" && {
