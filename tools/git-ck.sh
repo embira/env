@@ -1,3 +1,32 @@
+# $1: pid for waiting
+function waitpid() {
+    local lpid=$1
+    local lcnt=0
+    local lmod=0
+    local lbar=''
+    local lload=''
+    local lmax=500
+
+    while :; do
+        ps -p $lpid >/dev/null 2>&1 || break
+        if [ $lcnt -lt $lmax ]; then
+            (( lmod = lcnt % 10 ))
+            [ $lmod -eq 0 ] && lbar+='.'
+        fi
+        (( lmod = lcnt++ % 4 ))
+        case $lmod in
+            0) lload='/';;
+            1) lload='-';;
+            2) lload="\\";;
+            3) lload='|';;
+        esac
+        printf "Please wait %s \e[95m%s\e[0m\r" $lbar $lload
+        sleep 0.1
+    done
+
+    echo -en "\033[2K" # clear current line
+}
+
 #
 # Input:
 #   $1: command as string
@@ -86,10 +115,12 @@ function output_table() {
 }
 
 
-REF_CMD="git log --simplify-by-decoration --pretty='%h %D' --all | sed 's/,//g'"
-
-#git fetch
 echo
+echo 'Download objects and refs from remote repository by `git fetch`'
+git fetch &
+waitpid $!
+
+REF_CMD="git log --simplify-by-decoration --pretty='%h %D' --all | sed 's/,//g'"
 output_table "$REF_CMD"
 echo
 
