@@ -59,7 +59,7 @@ function output_sep_field_line() {
     printf "%${1}s+" | tr ' ' $2
 }
 
-function output_sep_line() {
+function output_sep_table_line() {
     [ $# -ge 2 ] && _sep=$2 || _sep='-'
 
     output_sep_field_line 8 $_sep
@@ -83,9 +83,9 @@ function output_table() {
     local -a _ref_list=($(make_ref_list))
     local _ref_num=${#_ref_list[@]}
 
-    output_sep_line $_ref_num 
+    output_sep_table_line $_ref_num 
     output_table_header ${_ref_list[@]}
-    output_sep_line $_ref_num 
+    output_sep_table_line $_ref_num 
 
     eval $1 | while read -a _line; do
         local _cmt=${_line[0]}
@@ -110,16 +110,27 @@ function output_table() {
         done
 
         echo
-        output_sep_line $_ref_num
+        output_sep_table_line $_ref_num
     done
 }
 
+output_sep_line() {
+    printf '%70s' | sed 's/ /-/g'
+}
 
 echo
 echo 'Download objects and refs from remote repository by `git fetch`'
+output_sep_line
 git fetch &
 waitpid $!
 
+echo 'git status'
+output_sep_line
+git status
+output_sep_line
+
+echo
+echo 'git ck'
 REF_CMD="git log --simplify-by-decoration --pretty='%h %D' --all | sed 's/,//g'"
 output_table "$REF_CMD"
 echo
