@@ -47,6 +47,10 @@ function make_ref_list() {
     echo ${_ref_list[@]}
 }
 
+output_sep_line() {
+    printf '%.1s' '-'{0..70} $'\n'
+}
+
 function output_table_header() {
     printf ' commit | rev    |'
     for _ref in $@; do
@@ -114,23 +118,21 @@ function output_table() {
     done
 }
 
-output_sep_line() {
-    printf '%70s' | sed 's/ /-/g'
-}
-
 echo
-echo 'Download objects and refs from remote repository by `git fetch`'
+echo 'git fetch: download objects and refs from remote repository'
 output_sep_line
 git fetch &
 waitpid $!
 
-echo 'git status'
+echo 'git status: show the working tree status'
 output_sep_line
 git status
 output_sep_line
 
 echo
-echo 'git ck'
+echo 'git ck: show the refs map'
+output_sep_line
+echo
 REF_CMD="git log --simplify-by-decoration --pretty='%h %D' --all | sed 's/,//g'"
 output_table "$REF_CMD"
 echo
@@ -138,5 +140,5 @@ echo
 
 #{+----------------------------------------- Embira Footer 1.7 -------+
 # | vim<600:set et sw=4 ts=4 sts=4:                                   |
-# | vim600:set et sw=4 ts=4 sts=4 ff=unix cindent fdm=indent fdn=1:   |
+# | vim600:set et sw=4 ts=4 sts=4 ff=unix cindent fdm=marker fmr={,}: |
 # +-------------------------------------------------------------------+}
