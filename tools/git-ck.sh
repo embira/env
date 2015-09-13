@@ -1,4 +1,7 @@
-# $1: pid for waiting
+#
+# Input:
+#   $1: pid for waiting
+#
 function waitpid() {
     local lpid=$1
     local lcnt=0
@@ -29,29 +32,38 @@ function waitpid() {
 
 #
 # Input:
-#   $1: command as string
+#   empty
 #
 function make_ref_list() {
 
     local -a _ref_list=(HEAD master)
 
-    while read -a _line; do
+    printf '%s' "${_ref_list[*]}"
+
+    git log --simplify-by-decoration --format='%D' --all | sed 's/,//g' | while read -a _line; do
         for _ref in ${_line[@]}; do
             _ref_bare=${_ref##*/}
             if [[ ! "${_ref_list[@]}" =~ "$_ref_bare" ]]; then
                 _ref_list+=($_ref_bare)
+                printf ' %s' $_ref_bare
             fi
         done
-    done <<< $(git log --simplify-by-decoration --format='%D' --all | sed 's/,//g')
-
-    echo ${_ref_list[@]}
+    done
 }
 
-output_sep_line() {
+#
+# Input:
+#   empty
+#
+function print_sep_line() {
     printf '%.1s' '-'{0..70} $'\n'
 }
 
-function output_table_header() {
+#
+# Input:
+#   $1 $2 ... : fields of header seperator with space
+#
+function print_table_header() {
     printf ' commit | rev    |'
     for _ref in $@; do
         printf ' %-14.14s|' $_ref
@@ -59,17 +71,17 @@ function output_table_header() {
     echo
 }
 
-function output_sep_field_line() {
+function print_sep_field_line() {
     printf "%${1}s+" | tr ' ' $2
 }
 
 function output_sep_table_line() {
     [ $# -ge 2 ] && _sep=$2 || _sep='-'
 
-    output_sep_field_line 8 $_sep
-    output_sep_field_line 8 $_sep
+    print_sep_field_line 8 $_sep
+    print_sep_field_line 8 $_sep
     for (( i=0; i<$1; i++ )); do
-        output_sep_field_line 15 $_sep
+        print_sep_field_line 15 $_sep
     done
     echo
 }
@@ -88,7 +100,7 @@ function output_table() {
     local _ref_num=${#_ref_list[@]}
 
     output_sep_table_line $_ref_num 
-    output_table_header ${_ref_list[@]}
+    print_table_header ${_ref_list[@]}
     output_sep_table_line $_ref_num 
 
     eval $1 | while read -a _line; do
@@ -120,18 +132,18 @@ function output_table() {
 
 echo
 echo 'git fetch: download objects and refs from remote repository'
-output_sep_line
-git fetch &
+print_sep_line
+#git fetch &
 waitpid $!
 
 echo 'git status: show the working tree status'
-output_sep_line
+print_sep_line
 git status
-output_sep_line
+print_sep_line
 
 echo
-echo 'git ck: show the refs map'
-output_sep_line
+echo 'git log: show the refs map'
+print_sep_line
 echo
 REF_CMD="git log --simplify-by-decoration --pretty='%h %D' --all | sed 's/,//g'"
 output_table "$REF_CMD"
