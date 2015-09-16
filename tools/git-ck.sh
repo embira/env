@@ -40,14 +40,10 @@ function print_sep_line() {
 
 #
 # Input:
-#   $1 $2 ... : fields of header seperator with space
+#   empty
 #
-function print_table_header() {
-    printf ' commit | rev    |'
-    for _ref in $@; do
-        printf ' %-14.14s|' $_ref
-    done
-    echo
+function print_table_column() {
+    printf '\e[90m|\e[0m'
 }
 
 #
@@ -56,7 +52,7 @@ function print_table_header() {
 #   $2: char of seperator
 #
 function print_field_line() {
-    printf "%${1}s+" | tr ' ' $2
+    printf "\e[90m%${1}s+\e[0m" | tr ' ' $2
 }
 
 #
@@ -72,6 +68,25 @@ function print_table_line() {
     for (( i=0; i<$1; i++ )); do
         print_field_line 15 $_sep
     done
+    echo
+}
+
+#
+# Input:
+#   $1 $2 ... : fields of header seperator with space
+#
+function print_table_header() {
+    printf ' commit '
+    print_table_column
+
+    printf ' rev    '
+    print_table_column
+
+    for _ref in $@; do
+        printf ' %-14.14s' $_ref
+        print_table_column
+    done
+
     echo
 }
 
@@ -117,8 +132,13 @@ function output_table() {
         local _cmt=${_line[0]}
         local _rev=$(git rev-list $_cmt | wc -l)
 
-        # output commit and revision
-        printf '%7s | %6s |' $_cmt $_rev
+        # print out commit
+        printf '%7s ' $_cmt
+        print_table_column
+
+        # print out revision
+        printf ' %6s ' $_rev
+        print_table_column
 
         # print out ref with table control by ref name list
         for _ref_name in ${_ref_list[@]}; do
@@ -132,7 +152,7 @@ function output_table() {
                 fi
             done
             [ $_found -eq 0 ] && printf '%15s' ' '
-            printf '|'
+            print_table_column
         done
 
         echo
