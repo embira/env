@@ -71,6 +71,10 @@ function print_table_line() {
     echo
 }
 
+function get_current_branch() {
+    git rev-parse --abbrev-ref HEAD
+}
+
 #
 # Input:
 #   $1 $2 ... : fields of header seperator with space
@@ -82,8 +86,14 @@ function print_table_header() {
     printf ' rev    '
     print_table_column
 
+    local _crt_branch="`get_current_branch`"
+    local _ref
     for _ref in $@; do
-        printf ' %-14.14s' $_ref
+        if [ "$_crt_branch" = "$_ref" ]; then
+            printf '\e[92m %-14.14s\e[0m' $_ref
+        else
+            printf ' %-14.14s' $_ref
+        fi
         print_table_column
     done
 
