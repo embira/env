@@ -113,6 +113,21 @@ function make_ref_list() {
 
 #
 # Input:
+#   $1: ref name to be found
+#   $2 $3 ... : ref list
+#
+function find_ref() {
+    local _ref
+    for _ref in ${@:2}; do
+        local _ref_bare=${_ref##*/}
+        if [ "$_ref_bare" = "$1" ]; then
+            printf '%s ' "${_ref%/*}"
+        fi
+    done
+}
+
+#
+# Input:
 #   $1: command as string
 #
 # Output:
@@ -142,20 +157,16 @@ function output_table() {
 
         # print out ref with table control by ref name list
         for _ref_name in ${_ref_list[@]}; do
-            local _found=0
-            for _ref in ${_line[@]:1}; do
-                _ref_bare=${_ref##*/}
-                if [ "$_ref_bare" = "$_ref_name" ]; then
-                    _found=1
-                    printf ' %-14.14s' "${_ref%/*}"
-                    break
-                fi
-            done
-            [ $_found -eq 0 ] && printf '%15s' ' '
+            local _ref_label="`find_ref $_ref_name ${_line[@]:1}`"
+            if [ -z "$_ref_label" ]; then
+                printf '%15s' ' '
+            else
+                printf ' %-14.14s' "$_ref_label"
+            fi
             print_table_column
         done
-
         echo
+
         print_table_line $_ref_num
     done
 }
@@ -178,7 +189,6 @@ echo
 echo
 echo 'git log: show the refs map'
 print_sep_line
-echo
 REF_CMD="git log --simplify-by-decoration --pretty='%h %D' --all | sed 's/,//g'"
 output_table "$REF_CMD"
 echo
