@@ -34,6 +34,51 @@ function waitpid() {
 # Input:
 #   empty
 #
+function print_sep_line() {
+    printf '\e[94m%.1s\e[0m' '-'{0..70} $'\n'
+}
+
+#
+# Input:
+#   $1 $2 ... : fields of header seperator with space
+#
+function print_table_header() {
+    printf ' commit | rev    |'
+    for _ref in $@; do
+        printf ' %-14.14s|' $_ref
+    done
+    echo
+}
+
+#
+# Input:
+#   $1: count of seperator
+#   $2: char of seperator
+#
+function print_field_line() {
+    printf "%${1}s+" | tr ' ' $2
+}
+
+#
+# Input:
+#   $1: count of field
+#   $2: char of seperator
+#
+function print_table_line() {
+    [ $# -ge 2 ] && _sep=$2 || _sep='-'
+
+    print_field_line 8 $_sep
+    print_field_line 8 $_sep
+    for (( i=0; i<$1; i++ )); do
+        print_field_line 15 $_sep
+    done
+    echo
+}
+
+#
+# Input:
+#   empty
+#
 function make_ref_list() {
 
     local -a _ref_list=(HEAD master)
@@ -53,41 +98,6 @@ function make_ref_list() {
 
 #
 # Input:
-#   empty
-#
-function print_sep_line() {
-    printf '%.1s' '-'{0..70} $'\n'
-}
-
-#
-# Input:
-#   $1 $2 ... : fields of header seperator with space
-#
-function print_table_header() {
-    printf ' commit | rev    |'
-    for _ref in $@; do
-        printf ' %-14.14s|' $_ref
-    done
-    echo
-}
-
-function print_sep_field_line() {
-    printf "%${1}s+" | tr ' ' $2
-}
-
-function output_sep_table_line() {
-    [ $# -ge 2 ] && _sep=$2 || _sep='-'
-
-    print_sep_field_line 8 $_sep
-    print_sep_field_line 8 $_sep
-    for (( i=0; i<$1; i++ )); do
-        print_sep_field_line 15 $_sep
-    done
-    echo
-}
-
-#
-# Input:
 #   $1: command as string
 #
 # Output:
@@ -99,9 +109,9 @@ function output_table() {
     local -a _ref_list=($(make_ref_list))
     local _ref_num=${#_ref_list[@]}
 
-    output_sep_table_line $_ref_num 
+    print_table_line $_ref_num 
     print_table_header ${_ref_list[@]}
-    output_sep_table_line $_ref_num 
+    print_table_line $_ref_num 
 
     eval $1 | while read -a _line; do
         local _cmt=${_line[0]}
@@ -126,20 +136,24 @@ function output_table() {
         done
 
         echo
-        output_sep_table_line $_ref_num
+        print_table_line $_ref_num
     done
 }
+
+
+######################################################################
 
 echo
 echo 'git fetch: download objects and refs from remote repository'
 print_sep_line
 #git fetch &
 waitpid $!
+echo
 
 echo 'git status: show the working tree status'
 print_sep_line
 git status
-print_sep_line
+echo
 
 echo
 echo 'git log: show the refs map'
