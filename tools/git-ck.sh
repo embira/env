@@ -138,6 +138,26 @@ function find_ref() {
 
 #
 # Input:
+#   $1: ref name to be found
+#   $2 $3 ... : ref rev list with format "ref:rev"
+#
+function find_ref_rev() {
+    local _return=0
+
+    local _ref_rev
+    for _ref_rev in ${@:2}; do
+        local _ref=${_ref_rev%:*}
+        if [ "$_ref" = "$1" ]; then
+            _return=${_ref_rev##*:}
+            break
+        fi
+    done
+    
+    echo $_return
+}
+
+#
+# Input:
 #   $1: command as string
 #
 # Output:
@@ -153,9 +173,10 @@ function output_table() {
     print_table_header ${_ref_list[@]}
     print_table_line $_ref_num 
 
+    local -a _ref_rev_list # (ref:rev ...)
     eval $1 | while read -a _line; do
         local _cmt=${_line[0]}
-        local _rev=$(git rev-list $_cmt | wc -l)
+        local _rev=$(git rev-list $_cmt | wc -l | tr -d ' ')
 
         # print out commit
         printf '\e[33m%7s\e[0m ' $_cmt
@@ -166,12 +187,20 @@ function output_table() {
         print_table_column
 
         # print out ref with table control by ref name list
+        local _ref_label
+        local _ref_rev=0
         for _ref_name in ${_ref_list[@]}; do
-            local _ref_label="`find_ref $_ref_name ${_line[@]:1}`"
+            _ref_label="`find_ref $_ref_name ${_line[@]:1}`"
             if [ -z "$_ref_label" ]; then
                 printf '%15s' ' '
             else
-                printf ' %-14.14s' "$_ref_label"
+                _ref_rev=`find_ref_rev $_ref_name ${_ref_rev_list[@]}`
+                if [ $_ref_rev -gt 0 ]; then
+                    printf ' \e[91m%-14.14s\e[0m' "$_ref_label($(($_rev - $_ref_rev)))"
+                else
+                    _ref_rev_list+=("$_ref_name:$_rev")
+                    printf ' %-14.14s' "$_ref_label"
+                fi
             fi
             print_table_column
         done
