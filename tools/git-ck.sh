@@ -133,7 +133,7 @@ function output_table() {
         local _rev=$(git rev-list $_cmt | wc -l)
 
         # print out commit
-        printf '%7s ' $_cmt
+        printf '\e[33m%7s\e[0m ' $_cmt
         print_table_column
 
         # print out revision
