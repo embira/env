@@ -51,9 +51,11 @@ sshcfg="$cwd/etc/sshsrv.conf"
 
 # create bin links
 #-------------------------------------------------------------
+mkdir -p $HOME/bin
 [ -e $cwd/scripts ] && {
-    mkdir -p $HOME/bin && ln -sf $cwd/scripts/*.sh $HOME/bin/
+    ln -sf $cwd/scripts/*.sh $HOME/bin/
 }
+mkLink $cwd/../tools/git-ck.sh  $HOME/bin/git-ck.sh
 
 # make git config
 #-------------------------------------------------------------
