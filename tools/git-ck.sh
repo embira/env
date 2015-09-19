@@ -196,7 +196,7 @@ function output_table() {
             else
                 _ref_rev=`find_ref_rev $_ref_name ${_ref_rev_list[@]}`
                 if [ $_ref_rev -gt 0 ]; then
-                    printf ' \e[38;5;196m%-14.14s\e[0m' "$_ref_label($(($_rev - $_ref_rev)))"
+                    printf '\e[0;49;38;5;167m %-14.14s\e[0m' "$_ref_label($(($_rev - $_ref_rev)))"
                 else
                     _ref_rev_list+=("$_ref_name:$_rev")
                     printf ' %-14.14s' "$_ref_label"
