@@ -1,6 +1,7 @@
 #
 # Input:
 #   $1: pid for waiting
+#   $2: process name
 #
 function waitpid() {
     local lpid=$1
@@ -23,11 +24,12 @@ function waitpid() {
             2) lload="\\";;
             3) lload='|';;
         esac
-        printf "Please wait %s \e[95m%s\e[0m\r" $lbar $lload
+        printf "$2 ... wait %s \e[95m%s\e[0m\r" $lbar $lload
         sleep 0.1
     done
 
     printf "\033[2K" # clear current line
+    echo "$2 ... completed"
 }
 
 #
@@ -214,19 +216,16 @@ function output_table() {
 ######################################################################
 
 echo
-echo 'git fetch: download objects and refs from remote repository'
+echo 'Download objects and refs from remote repository'
 print_sep_line
 git fetch &
-waitpid $!
+waitpid $! 'git fetch'
 
 echo
-echo 'git status: show the working tree status'
+echo 'Show the working tree status and refs map'
 print_sep_line
 git status
-
 echo
-echo 'git log: show the refs map'
-print_sep_line
 REF_CMD="git log --simplify-by-decoration --pretty='%h %D' --all | sed 's/,//g'"
 output_table "$REF_CMD"
 
