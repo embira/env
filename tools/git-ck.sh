@@ -190,16 +190,16 @@ function output_table() {
         local _ref_label
         local _ref_rev=0
         for _ref_name in ${_ref_list[@]}; do
-            _ref_label="`find_ref $_ref_name ${_line[@]:1}`"
-            if [ -z "$_ref_label" ]; then
-                printf '%15s' ' '
-            else
-                _ref_rev=`find_ref_rev $_ref_name ${_ref_rev_list[@]}`
-                if [ $_ref_rev -gt 0 ]; then
+            _ref_label="`find_ref $_ref_name ${_line[@]:1}`"    # find ref names from line
+            if [ -z "$_ref_label" ]; then                       # if not be found in the current line
+                printf '%15s' ' '                               # print out space to skip the ref field
+            else                                                # if be found, so to print out ref
+                _ref_rev=`find_ref_rev $_ref_name ${_ref_rev_list[@]}`  # to find ount revision
+                if [ $_ref_rev -gt 0 ]; then                    # if the front revision exists, mark the diff
                     printf '\e[0;49;38;5;167m %-14.14s\e[0m' "$_ref_label($(($_rev - $_ref_rev)))"
                 else
-                    _ref_rev_list+=("$_ref_name:$_rev")
-                    printf ' %-14.14s' "$_ref_label"
+                    _ref_rev_list+=("$_ref_name:$_rev")         # no front revision exists, add to rev list
+                    printf ' %-14.14s' "$_ref_label"            # just print out ref name
                 fi
             fi
             print_table_column
@@ -216,7 +216,7 @@ function output_table() {
 echo
 echo 'git fetch: download objects and refs from remote repository'
 print_sep_line
-#git fetch &
+git fetch &
 waitpid $!
 echo
 
