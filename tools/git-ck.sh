@@ -27,7 +27,7 @@ function waitpid() {
         sleep 0.1
     done
 
-    echo -en "\033[2K" # clear current line
+    printf "\033[2K" # clear current line
 }
 
 #
@@ -218,20 +218,21 @@ echo 'git fetch: download objects and refs from remote repository'
 print_sep_line
 git fetch &
 waitpid $!
-echo
 
+echo
 echo 'git status: show the working tree status'
 print_sep_line
 git status
-echo
 
 echo
 echo 'git log: show the refs map'
 print_sep_line
 REF_CMD="git log --simplify-by-decoration --pretty='%h %D' --all | sed 's/,//g'"
 output_table "$REF_CMD"
+
 echo
 
+exit 0
 
 #{+----------------------------------------- Embira Footer 1.7 -------+
 # | vim<600:set et sw=4 ts=4 sts=4:                                   |
