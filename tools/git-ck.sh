@@ -164,6 +164,25 @@ function find_ref_rev() {
 
 #
 # Input:
+#   $1: ref label
+#   $2: ref rev diff
+#
+function print_ref() {
+    local _len=14
+    if [ $2 -eq 0 ]; then
+        printf " %-${_len}.${_len}s" "$1"
+    else
+        local _rev_len=$(( 2 + ${#2} ))     # 2 for ()
+        [ $_rev_len -gt 10 ] && _rev_len=10 # max is 10
+        _len=$(( 14 - $_rev_len ))
+        printf "\e[0;49;38;5;167m %-${_len}.${_len}s\e[0m" "$1"
+        _len=$_rev_len
+        printf "\e[0;49;91m%-${_len}.${_len}s\e[0m" "($2)"
+    fi
+}
+
+#
+# Input:
 #   $1: command as string
 #
 # Output:
@@ -195,6 +214,7 @@ function output_table() {
         # print out ref with table control by ref name list
         local _ref_label
         local _ref_rev=0
+        local _ref_rev_diff=0
         for _ref_name in ${_ref_list[@]}; do
             # find ref names from line
             _ref_label="`find_ref $_ref_name ${_line[@]:1}`"
@@ -204,17 +224,16 @@ function output_table() {
                 printf '%15s' ' '
             else
                 # if be found, so to print out ref
-                # to find ount revision
+                # to find out revision
                 _ref_rev=`find_ref_rev $_ref_name ${_ref_rev_list[@]}`  
                 if [ $_ref_rev -gt 0 ]; then
-                    # if the front revision exists, mark the diff
-                    printf '\e[0;49;38;5;167m %-14.14s\e[0m' "$_ref_label($(($_rev - $_ref_rev)))"
+                    _ref_rev_diff=$(($_rev - $_ref_rev))
                 else
+                    _ref_rev_diff=0
                     # no front revision exists, add to rev list
                     _ref_rev_list+=("$_ref_name:$_rev")
-                    # just print out ref name
-                    printf ' %-14.14s' "$_ref_label"
                 fi
+                print_ref "$_ref_label" $_ref_rev_diff 
             fi
             print_table_column
         done
