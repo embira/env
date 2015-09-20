@@ -106,13 +106,15 @@ function print_table_header() {
 # Input:
 #   empty
 #
-function make_ref_list() {
+function make_ref_list() { 
 
-    local -a _ref_list=(HEAD master)
+    local -a _ref_list=(tag HEAD master)
 
     printf '%s' "${_ref_list[*]}"
 
-    git log --simplify-by-decoration --format='%D' --all | sed 's/,//g' | while read -a _line; do
+    git log --simplify-by-decoration --format='%D' --all \
+    | awk -F ',' '{for (i=1;i<=NF;i++) {if (substr($i, 1, 4)!="tag:") printf $i" "}; printf "\n";}' \
+    | grep -v '^ *$' | while read -a _line; do
         for _ref in ${_line[@]}; do
             _ref_bare=${_ref##*/}
             if [[ ! "${_ref_list[@]}" =~ "$_ref_bare" ]]; then
@@ -125,12 +127,14 @@ function make_ref_list() {
 
 #
 # Input:
-#   $1: ref name to be found
+#   $1: ref name to be found with format ref/name or tag:name
 #   $2 $3 ... : ref list
 #
 function find_ref() {
     local _ref
     for _ref in ${@:2}; do
+        # convert tag:name to name/tag
+        _ref="$(echo $_ref | sed 's/tag:\(.*\)/\1\/tag/g')"
         local _ref_bare=${_ref##*/}
         if [ "$_ref_bare" = "$1" ]; then
             printf '%s ' "${_ref%/*}"
@@ -145,16 +149,16 @@ function find_ref() {
 #
 function find_ref_rev() {
     local _return=0
-
-    local _ref_rev
-    for _ref_rev in ${@:2}; do
-        local _ref=${_ref_rev%:*}
-        if [ "$_ref" = "$1" ]; then
-            _return=${_ref_rev##*:}
-            break
-        fi
-    done
-    
+    if [ "$1" != 'tag' ]; then
+        local _ref_rev
+        for _ref_rev in ${@:2}; do
+            local _ref=${_ref_rev%:*}
+            if [ "$_ref" = "$1" ]; then
+                _return=${_ref_rev##*:}
+                break
+            fi
+        done
+    fi
     echo $_return
 }
 
@@ -192,16 +196,24 @@ function output_table() {
         local _ref_label
         local _ref_rev=0
         for _ref_name in ${_ref_list[@]}; do
-            _ref_label="`find_ref $_ref_name ${_line[@]:1}`"    # find ref names from line
-            if [ -z "$_ref_label" ]; then                       # if not be found in the current line
-                printf '%15s' ' '                               # print out space to skip the ref field
-            else                                                # if be found, so to print out ref
-                _ref_rev=`find_ref_rev $_ref_name ${_ref_rev_list[@]}`  # to find ount revision
-                if [ $_ref_rev -gt 0 ]; then                    # if the front revision exists, mark the diff
+            # find ref names from line
+            _ref_label="`find_ref $_ref_name ${_line[@]:1}`"
+            if [ -z "$_ref_label" ]; then
+                # if not be found in the current line
+                # print out space to skip the ref field
+                printf '%15s' ' '
+            else
+                # if be found, so to print out ref
+                # to find ount revision
+                _ref_rev=`find_ref_rev $_ref_name ${_ref_rev_list[@]}`  
+                if [ $_ref_rev -gt 0 ]; then
+                    # if the front revision exists, mark the diff
                     printf '\e[0;49;38;5;167m %-14.14s\e[0m' "$_ref_label($(($_rev - $_ref_rev)))"
                 else
-                    _ref_rev_list+=("$_ref_name:$_rev")         # no front revision exists, add to rev list
-                    printf ' %-14.14s' "$_ref_label"            # just print out ref name
+                    # no front revision exists, add to rev list
+                    _ref_rev_list+=("$_ref_name:$_rev")
+                    # just print out ref name
+                    printf ' %-14.14s' "$_ref_label"
                 fi
             fi
             print_table_column
@@ -226,7 +238,10 @@ echo 'Show the working tree status and refs map'
 print_sep_line
 git status
 echo
-REF_CMD="git log --simplify-by-decoration --pretty='%h %D' --all | sed 's/,//g'"
+REF_CMD="\
+    git log --simplify-by-decoration --pretty='%h %D' --all \
+    | sed 's/,//g;s/tag: */tag:/g' \
+"
 output_table "$REF_CMD"
 
 echo
