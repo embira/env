@@ -230,7 +230,6 @@ REF_CMD="git log --simplify-by-decoration --pretty='%h %D' --all | sed 's/,//g'"
 output_table "$REF_CMD"
 
 echo
-
 exit 0
 
 #{+----------------------------------------- Embira Footer 1.7 -------+
