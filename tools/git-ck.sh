@@ -172,12 +172,23 @@ function print_ref() {
     if [ $2 -eq 0 ]; then
         printf " %-${_len}.${_len}s" "$1"
     else
+        local _len_dot=0
+        local _color_label='\e[0;49;38;5;167m'
+        local _color_rev='\e[0;49;91m'
+
         local _rev_len=$(( 2 + ${#2} ))     # 2 for ()
         [ $_rev_len -gt 10 ] && _rev_len=10 # max is 10
         _len=$(( 14 - $_rev_len ))
-        printf "\e[0;49;38;5;167m %-${_len}.${_len}s\e[0m" "$1"
+        if [ ${#1} -gt $_len ]; then
+            _len_dot=1                      # 1 for .
+            _len=$(( $_len - $_len_dot ))
+        fi
+        printf "$_color_label %-${_len}.${_len}s\e[0m" "$1"
+
+        [ $_len_dot -gt 0 ] && printf "$_color_label.\e[0m"
+
         _len=$_rev_len
-        printf "\e[0;49;91m%-${_len}.${_len}s\e[0m" "($2)"
+        printf "$_color_rev%-${_len}.${_len}s\e[0m" "($2)"
     fi
 }
 
