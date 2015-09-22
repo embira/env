@@ -24,12 +24,12 @@ function waitpid() {
             2) lload="\\";;
             3) lload='|';;
         esac
-        printf "$2 ... wait %s \e[95m%s\e[0m\r" $lbar $lload
+        printf "$2 ...%s \e[95m%s\e[0m\r" $lbar $lload
         sleep 0.1
     done
 
     printf "\033[2K" # clear current line
-    echo "$2 ... completed"
+    printf "$2 ...%s completed\n" $lbar
 }
 
 #
