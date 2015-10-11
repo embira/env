@@ -41,6 +41,7 @@ cwd="$(find $PWD -samefile $0 | xargs dirname)"
 
 # create etc links
 #-------------------------------------------------------------
+touch $HOME/.bash_sessions_disable          # disable shell session from El Capitan
 mkLink $cwd/etc/bashrc      $HOME/.bashrc
 mkLink $cwd/etc/inputrc     $HOME/.inputrc
 mkLink $cwd/etc/vimrc       $HOME/.vimrc
