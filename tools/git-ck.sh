@@ -114,7 +114,7 @@ function make_ref_list() {
 
     git log --simplify-by-decoration --format='%D' --all \
     | awk -F ',' '{for (i=1;i<=NF;i++) {if (substr($i, 1, 4)!="tag:") printf $i" "}; printf "\n";}' \
-    | grep -v '^ *$' | while read -a _line; do
+    | grep -v '^ *$' | grep -v '\->' | while read -a _line; do
         for _ref in ${_line[@]}; do
             _ref_bare=${_ref##*/}
             if [[ ! "${_ref_list[@]}" =~ "$_ref_bare" ]]; then
