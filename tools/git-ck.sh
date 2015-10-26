@@ -106,7 +106,7 @@ function print_table_header() {
 # Input:
 #   empty
 #
-function make_ref_list() { 
+function make_ref_list() {
 
     local -a _ref_list=(tag HEAD master)
 
@@ -114,12 +114,14 @@ function make_ref_list() {
 
     git log --simplify-by-decoration --format='%D' --all \
     | awk -F ',' '{for (i=1;i<=NF;i++) {if (substr($i, 1, 4)!="tag:") printf $i" "}; printf "\n";}' \
-    | grep -v '^ *$' | grep -v '\->' | while read -a _line; do
+    | grep -v '^ *$' | while read -a _line; do
         for _ref in ${_line[@]}; do
-            _ref_bare=${_ref##*/}
-            if [[ ! "${_ref_list[@]}" =~ "$_ref_bare" ]]; then
-                _ref_list+=($_ref_bare)
-                printf ' %s' $_ref_bare
+            if [ "${_ref}" != '->' ]; then
+                _ref_bare=${_ref##*/}
+                if [[ ! "${_ref_list[@]}" =~ "$_ref_bare" ]]; then
+                    _ref_list+=($_ref_bare)
+                    printf ' %s' $_ref_bare
+                fi
             fi
         done
     done
