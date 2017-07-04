@@ -12,10 +12,10 @@ fi
 # system environment {{{
 export TERM='xterm-256color'
 [ -n "$LSCOLORS" ] && export LSCOLORS="`echo $LS_COLORS | sed 's/;34:/;38;5;111:/g;s/=01;/=00;/g'`"
-export PS1='\[\e[0;96m\]\u\[\e[0;93m\]@\[\e[0;36m\]\h\[\e[0;33m\]-\[\e[0;36m\]\t \[\e[0;96m\]\w\[\e[0;93m\]\$\[\033[0m\] '
+export PS1='\[\e[38;5;248m\]\u\[\e[38;5;34m\]@\[\e[38;5;248m\]\h\[\e[38;5;34m\]-\[\e[38;5;248m\]\t \[\e[38;5;248m\]\w\[\e[38;5;34m\]\$\[\033[0m\] '
 
 #export PATH=".:${PATH}:${HOME}/bin"
-export PATH=".:${PATH}:${HOME}/Projects/android/sdk/platform-tools"
+export PATH=".:${PATH}:${HOME}/Projects/android/sdk/platform-tools:/opt/local/bin:/opt/local/sbin"
 export HISTCONTROL=ignoreboth:erasedups
 #export HISTFILESIZE=0
 #export HISTSIZE=100
@@ -83,4 +83,5 @@ alias td5='tree -dCF -L 5'
 alias ccat='pygmentize -f 256'
 alias l='less -R'
 alias pwg='pwgen -acnsyvB -N 1'
+alias tmu='tmux -u'
 #}}}
