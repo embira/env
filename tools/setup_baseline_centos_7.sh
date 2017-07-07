@@ -363,7 +363,7 @@ if pask 'Install application packages'; then
     echo -e '\nInstall \e[92msystem utilities\e[0m ...'
     yum -y install openssh-clients sysstat iotop htop tmux tree vim-enhanced yum-utils sendmail-cf git
     echo -e '\nInstall \e[92mnetwork utilities\e[0m ...'
-    yum -y install jwhois telnet nc
+    yum -y install jwhois telnet nc wget
     #echo -e '\nInstall \e[92mhttpd\e[0m and setup \e[92mapache\e[0m ...'
     #yum -y install httpd && chkconfig httpd on && usermod -G program apache || errmsg 'Error: install httpd failed!'
     #echo -e '\nInstall \e[92mmysql-server\e[0m ...'
