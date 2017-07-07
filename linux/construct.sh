@@ -38,23 +38,6 @@ mkdir -p $HOME/bin
 }
 mkLink $cwd/../tools/git-ck.sh $HOME/bin/git-ck.sh
 
-# make git config
-#-------------------------------------------------------------
-[ -e $HOME/bin/gitcfg.sh ] && {
-    read -p 'Do you want to config git? [y/n]:' flag
-    [ "$flag" = 'y' ] && sh $HOME/bin/gitcfg.sh || echo 'Skip.'
-}
-
-# make svn config and colordiff(rpmforge)
-#-------------------------------------------------------------
-read -p 'Do you want to install svn config and colordiff? [y/n]:' flag
-if [ "$flag" = 'y' ]; then
-    mkdir -p $HOME/.subversion && ln -sf $cwd/etc/svn.conf $HOME/.subversion/config
-    sudo yum -y install colordiff && ln -sf $cwd/etc/colordiffrc $HOME/.colordiffrc
-else
-    echo 'Skip.'
-fi
-
 # add markdown file detect to vim
 #-------------------------------------------------------------
 dir_ftdetect="$HOME/.vim/ftdetect"
@@ -72,6 +55,22 @@ dircolors -p | grep xterm-256color >/dev/null 2>&1 || {
     echo -e '# Add xterm-256color\nTERM xterm-256color\n' > $HOME/.dir_colors
     dircolors -p >> $HOME/.dir_colors
 }
+
+# make git config
+#-------------------------------------------------------------
+[ -e $HOME/bin/gitcfg.sh ] && {
+    read -p 'Do you want to config git? [y/n]:' flag
+    [ "$flag" = 'y' ] && sh $HOME/bin/gitcfg.sh || echo 'Skip.'
+}
+
+# install colordiff(epel)
+#-------------------------------------------------------------
+read -p 'Do you want to install colordiff? [y/n]:' flag
+if [ "$flag" = 'y' ]; then
+    sudo yum -y install colordiff && ln -sf $cwd/etc/colordiffrc $HOME/.colordiffrc
+else
+    echo 'Skip.'
+fi
 
 # install pygments
 #-------------------------------------------------------------
