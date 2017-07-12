@@ -200,6 +200,17 @@ if isVirtualBox; then
     fi
 fi
 
+# Create swap
+#-------------------------------------------------------------
+if pask 'Create swap 1G@/var/swap'; then
+    swap='/var/swap'
+    dd if=/dev/zero of=$swap bs=1M count=1024
+    chmod 600 $swap
+    mkswap $swap
+    swapon $swap
+    echo "$swap swap swap defaults 0 0" >> /etc/fstab && cat /etc/fstab
+fi
+
 # Disable IPv6
 #-------------------------------------------------------------
 pdate
@@ -394,13 +405,16 @@ fi
 #    grep %wheel /etc/sudoers | grep -v '^#'
 #fi
 
-# Disable root remote ssh login
+# Set sshd to disable root remote login, reverse dns lookup, GSSAPI auth
 #-------------------------------------------------------------
 pdate
 if pask 'Disable root remote ssh login'; then
-    sed -i -e 's/^#PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+    sshcfg='/etc/ssh/sshd_config'
+    sed -i -e 's/^#PermitRootLogin yes/PermitRootLogin no/' $sshcfg
+    sed -i -e 's/^#UseDNS yes/UseDNS no/' $sshcfg
+    sed -i -e 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/' $sshcfg
     echo
-    grep PermitRootLogin /etc/ssh/sshd_config | grep -v '^#'
+    grep PermitRootLogin $sshcfg | grep -v '^#'
     if [ $? -eq 0 ]; then
         echo
         systemctl restart sshd
