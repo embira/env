@@ -452,6 +452,16 @@ if pask 'Setup sendmail'; then
     systemctl status sendmail
 fi
 
+# Start chronyd
+#-------------------------------------------------------------
+if ! systemctl is-enabled chronyd; then
+    if pask 'Start & enable chronyd'; then
+        systemctl enable chronyd
+        systemctl restart chronyd
+        systemctl status chronyd
+    fi
+fi
+
 # Stop unuseful services
 #-------------------------------------------------------------
 function stopsrv() {
